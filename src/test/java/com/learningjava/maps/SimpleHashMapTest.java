@@ -15,13 +15,13 @@ public class SimpleHashMapTest {
 
     @Before
     public void setUp() throws Exception {
-        // Given
+        // given
         this.map = new SimpleHashMap<>();
     }
 
     /************ size test start **********/
     @Test
-    public void should_return_0_when_init() {
+    public void should_return_size_0_when_init() {
         // when
         int size = map.size();
         // then
@@ -43,7 +43,7 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_1_when_call_once_put() {
+    public void should_return_size_1_when_call_once_put() {
         // when
         map.put(1, 1);
         int size = map.size();
@@ -52,7 +52,7 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_1_when_call_twice_put_contains_duplicated_key() {
+    public void should_return_size_1_when_call_twice_put_contains_duplicated_key() {
         // when
         map.put(1, 1);
         map.put(1, 2);
@@ -83,7 +83,7 @@ public class SimpleHashMapTest {
     /************ get test start **********/
     @Test
     public void should_return_null_when_call_get() {
-        // Given
+        // given
         map.put(1, 1);
         // when
         Integer value = map.get(2);
@@ -93,7 +93,7 @@ public class SimpleHashMapTest {
 
     @Test
     public void should_return_value_when_call_get() {
-        // Given
+        // given
         map.put(1, 1);
         // when
         Integer value = map.get(1);
@@ -106,7 +106,7 @@ public class SimpleHashMapTest {
     /************ remove test start **********/
     @Test
     public void should_return_value_when_call_remove() {
-        // Given
+        // given
         map.put(1, 1);
         // when
         int value = map.remove(1);
@@ -118,7 +118,7 @@ public class SimpleHashMapTest {
 
     @Test
     public void should_return_null_when_remove_not_existed_key() {
-        // Given
+        // given
         map.put(1, 1);
         // when
         Integer value = map.remove(2);
@@ -133,7 +133,7 @@ public class SimpleHashMapTest {
     /************ values test start **********/
     @Test
     public void should_return_correct_values() {
-        // Given
+        // given
         map.put(1, 1);
         map.put(2, 2);
         map.put(3, 3);
@@ -152,7 +152,7 @@ public class SimpleHashMapTest {
     /************ containsKey test start **********/
     @Test
     public void should_return_true_when_key_existed() {
-        // Given
+        // given
         map.put(1, 1);
         // when
         boolean result = map.containsKey(1);
@@ -162,7 +162,7 @@ public class SimpleHashMapTest {
 
     @Test
     public void should_return_false_when_key_not_exist() {
-        // Given
+        // given
         map.put(1, 1);
         // when
         boolean result = map.containsKey(2);
