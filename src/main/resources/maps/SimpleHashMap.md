@@ -4,7 +4,7 @@
 
 ### 预设计
 ```java
-public class SimpleHashMap {
+public class SimpleHashMap<K, V> {
     public V put(K key, V value);   
     public V get(K key);   
     public V remove(K key); 
