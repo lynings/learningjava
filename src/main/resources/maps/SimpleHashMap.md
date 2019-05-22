@@ -30,29 +30,36 @@ public class SimpleHashMap {
     - [x] hash table 的下标为 hash & (capacity -1)
     - [x] 扩容时需要把旧的 hash table 的数据转移到新的 hash table
     - [x] 转移数据到新的 hash table 之前需要 rehash，rehash = entry.hash & (new_capacity -1)
-    - [ ] 如果 hash 冲突，则保存到对应的 bucket.next，bucket 使用链表数据结构.
+    - [ ] 如果 hash 冲突，使用链表存储
+    - [ ] 如果同一个 hash 冲突超过 8 次，使用红黑树存储
 - [ ] 增加 size 接口
     - [x] 增加全局的 size 成员变量.
     - [x] put 接口调用成功，则 size += 1.
-    - [ ] remove 接口调用成功，则 size -= 1.
+    - [x] remove 接口调用成功，则 size -= 1.
+    - [ ] 考虑链表
+    - [ ] 考虑红黑树
 - [ ] 增加 containsKey 接口
-    - [ ] 通过 key 计算 hash    
-    - [ ] 通过 hash 计算 index
-    - [ ] 通过 index 检索 key，检索到return true,否则 return false，
-    - [ ] 考虑 hash table 为 null.
+    - [x] 通过 key 计算 hash    
+    - [x] 通过 hash 计算 index
+    - [x] 通过 index 检索 key，检索到return true,否则 return false，
+    - [x] 考虑 hash table 为 null.
+    - [ ] 考虑链表
+    - [ ] 考虑红黑树
 - [ ] 增加 get 接口
     - [x] 通过 key 计算 hash    
     - [x] 通过 hash 计算 index
     - [x] 通过 index 检索 bucket
-    - [ ] 如果 bucket 存在多个数据节点，则需要判断 key 的值和引用是否相等.
+    - [x] 如果 bucket 存在多个数据节点，则需要判断 key 的值和引用是否相等.
     - [x] 如果相等返回对应的 value，否则返回 null.
+    - [ ] 考虑链表
+    - [ ] 考虑红黑树
 - [ ] 增加 remove 接口
     - [x] 通过 key 计算 hash    
     - [x] 通过 hash 计算 index
     - [x] 通过 index 检索 bucket
-    - [ ] 如果 bucket 存在多个数据节点，则需要判断 key 的值和引用是否相等.
     - [x] 如果相等则将对应的 bucket 置 null，并返回对应的 value，否则返回 null，
-    - [ ] 删除时 考虑 bucket 存在多个数据节点的情况.
+    - [ ] 考虑链表
+    - [ ] 考虑红黑树
 - [ ] 增加 values 接口
     - [x] 每次 put 成功时保存 list 中到
     - [x] 每次 put 替换成功时，需要替换 list 中对应的 value
@@ -60,5 +67,6 @@ public class SimpleHashMap {
 -  [ ] 增加 forEach 接口
     - [ ] 遍历 hash table
     - [ ] 如果存在 bucket，则通过 action.apply(key, value) 
-    - [ ] 需要注意 bucket.next 不为 null 的情况
+    - [ ] 考虑链表
+    - [ ] 考虑红黑树
 - [ ] 增加 rb tree 保存 hash 冲突超过 8 次的数据节点.  
