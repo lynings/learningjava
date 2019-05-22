@@ -1,5 +1,6 @@
 package com.learningjava.maps;
 
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -82,8 +83,9 @@ public class SimpleHashMapTest {
     /************ get test start **********/
     @Test
     public void should_return_null_when_call_get() {
-        // when
+        // Given
         map.put(1, 1);
+        // when
         Integer value = map.get(2);
         // then
         assertThat(value).isNull();
@@ -91,8 +93,9 @@ public class SimpleHashMapTest {
 
     @Test
     public void should_return_value_when_call_get() {
-        // when
+        // Given
         map.put(1, 1);
+        // when
         Integer value = map.get(1);
         // then
         assertThat(value).isEqualTo(1);
@@ -141,6 +144,7 @@ public class SimpleHashMapTest {
         Iterable<Integer> values = map.values();
         // then
         assertThat(values.spliterator().estimateSize()).isEqualTo(3);
+        assertThat(Lists.newArrayList(values)).isEqualTo(Lists.list(1,2,3));
     }
     /************ values test end **********/
 
@@ -148,6 +152,7 @@ public class SimpleHashMapTest {
     /************ containsKey test start **********/
     @Test
     public void should_return_true_when_key_existed() {
+        // Given
         map.put(1, 1);
         // when
         boolean result = map.containsKey(1);
@@ -157,6 +162,7 @@ public class SimpleHashMapTest {
 
     @Test
     public void should_return_false_when_key_not_exist() {
+        // Given
         map.put(1, 1);
         // when
         boolean result = map.containsKey(2);
