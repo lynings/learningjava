@@ -116,6 +116,23 @@ public class SimpleHashMapTest {
         // then
         assertThat(Lists.newArrayList(map.values())).isEqualTo(Lists.list(1, 2, 5, 4, 5));
     }
+
+    @Test
+    public void test_put_when_hash_conflict_exceed_7_times_then_treeify_bucket() {
+        // given
+        SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
+        // when
+        map.put(new HashConflict(1), 1);
+        map.put(new HashConflict(2), 2);
+        map.put(new HashConflict(3), 3);
+        map.put(new HashConflict(4), 4);
+        map.put(new HashConflict(5), 5);
+        map.put(new HashConflict(6), 6);
+        map.put(new HashConflict(7), 7);
+        map.put(new HashConflict(8), 8);
+        // then
+        assertThat(Lists.newArrayList(map.values())).isEqualTo(Lists.list(1, 2, 3, 4, 5, 6, 7, 8));
+    }
     /************ put test end **********/
 
     /************ get test start **********/
@@ -298,7 +315,7 @@ public class SimpleHashMapTest {
 
         @Override
         public int hashCode() {
-            return this.field <= 3 ? 1 : this.field;
+            return this.field <= 8 ? 1 : this.field;
         }
 
         @Override

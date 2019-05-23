@@ -129,10 +129,6 @@ public class SimpleHashMap<K, V> {
                 return value;
             }
             bucket.putLast(new Bucket<>(hash, key, value));
-
-            if (bucket.size() >= TREEIFY_THRESHOLD) {
-                bucket.treeify();
-            }
         }
         this.size += 1;
         return value;
@@ -237,10 +233,6 @@ public class SimpleHashMap<K, V> {
             }
         }
 
-        public void treeify() {
-            TreeBucket<K, V> treeBucket = null;
-        }
-
         private Bucket last() {
             Bucket<K, V> bucket = this;
             while (true) {
@@ -250,13 +242,5 @@ public class SimpleHashMap<K, V> {
                 bucket = bucket.next;
             }
         }
-    }
-
-    private static class TreeBucket<K, V> {
-        int hash;
-        K key;
-        V value;
-        boolean black;
-        TreeBucket<K, V> left, right;
     }
 }
