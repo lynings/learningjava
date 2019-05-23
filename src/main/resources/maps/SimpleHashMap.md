@@ -64,7 +64,7 @@ public class SimpleHashMap<K, V> {
     - [x] 每次 put 成功时保存 list 中到
     - [x] 每次 put 替换成功时，需要替换 list 中对应的 value
     - [x] 每次 remove 成功时从 list 中到删除
-    - [ ] 考虑链表
+    - [x] 考虑链表
     - [ ] 考虑红黑树
 -  [ ] 增加 forEach 接口
     - [x] 遍历 hash table
