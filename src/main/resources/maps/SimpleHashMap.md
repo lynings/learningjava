@@ -71,6 +71,10 @@ public class SimpleHashMap<K, V> {
     - [x] 如果存在 bucket，则通过 action.apply(key) 
     - [x] 考虑链表
     - [ ] 考虑红黑树
+- [ ] 增加 fail-fast
+    - 增加 modCount 成员变量用于统计变更次数 
+    - 迭代前后需要验证 modCount 前后是否一致 
+    - 如果 modCount 前后是否一致需要抛出 ConcurrentModificationException. 
 - [ ] 增加 rb tree 保存 hash 冲突超过 8 次的数据节点.
     - [ ] 生成红黑树
         - [ ] root 必须为黑色  

@@ -24,7 +24,7 @@ public class SimpleHashMapTest {
 
     /************ size test start **********/
     @Test
-    public void should_return_size_0_when_init() {
+    public void should_return_0_when_init() {
         // when
         int size = map.size();
         // then
@@ -32,14 +32,31 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void test_size_when_hash_conflict() {
+    public void should_return_correct_size_when_duplicated_key() {
+        // given
+        SimpleHashMap<Integer, Integer> map = new SimpleHashMap<>();
+        map.put(1, 1);
+        map.put(2, 2);
+        map.put(3, 3);
+        map.put(3, 4);
+        map.put(3, 5);
+        map.put(4, 4);
+        map.put(5, 5);
+        map.remove(1);
+        map.remove(2);
+        // when
+        int size = map.size();
+        // then
+        assertThat(size).isEqualTo(3);
+    }
+
+    @Test
+    public void should_return_correct_size_when_hash_conflict() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         map.put(new HashConflict(1), 1);
         map.put(new HashConflict(2), 2);
         map.put(new HashConflict(3), 3);
-        map.put(new HashConflict(3), 4);
-        map.put(new HashConflict(3), 5);
         map.put(new HashConflict(4), 4);
         map.put(new HashConflict(5), 5);
         map.remove(new HashConflict(5));
@@ -54,43 +71,30 @@ public class SimpleHashMapTest {
 
     /************ put test start **********/
     @Test
-    public void should_grow_when_call_put_and_exceed_threshold() {
-        // when
-        for (int i = 0; i < 17; i++) {
-            map.put(i, i);
-        }
-        // then
-        assertThat(map.size()).isEqualTo(17);
-        assertThat(map.get(1)).isEqualTo(1);
-    }
-
-    @Test
-    public void should_return_size_1_when_call_once_put() {
+    public void should_put_success_when_put_one_entry() {
         // when
         map.put(1, 1);
-        int size = map.size();
         // then
-        assertThat(size).isOne();
+        assertThat(map.size()).isOne();
     }
 
     @Test
-    public void should_return_size_1_when_call_twice_put_contains_duplicated_key() {
+    public void should_put_success_when_duplicated_key() {
         // when
         map.put(1, 1);
         map.put(1, 2);
-        int size = map.size();
         // then
-        assertThat(size).isEqualTo(1);
+        assertThat(map.size()).isEqualTo(1);
     }
 
     @Test
-    public void should_return_2_when_call_twice_put() {
+    public void should_put_success_when_put_multiples_entries() {
         // when
         map.put(1, 1);
         map.put(2, 2);
-        int size = map.size();
+        map.put(3, 3);
         // then
-        assertThat(size).isEqualTo(2);
+        assertThat(map.size()).isEqualTo(3);
     }
 
     @Test
@@ -102,7 +106,7 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void test_put_when_hash_conflict() {
+    public void should_put_success_when_hash_conflict() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         // when
@@ -118,26 +122,21 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void test_put_when_hash_conflict_exceed_7_times_then_treeify_bucket() {
-        // given
-        SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
+    public void should_auto_grow_when_capacity_exceed_threshold() {
+        // given default threshold = 8
         // when
-        map.put(new HashConflict(1), 1);
-        map.put(new HashConflict(2), 2);
-        map.put(new HashConflict(3), 3);
-        map.put(new HashConflict(4), 4);
-        map.put(new HashConflict(5), 5);
-        map.put(new HashConflict(6), 6);
-        map.put(new HashConflict(7), 7);
-        map.put(new HashConflict(8), 8);
+        for (int i = 1; i <= 20; i++) {
+            map.put(i, i);
+        }
         // then
-        assertThat(Lists.newArrayList(map.values())).isEqualTo(Lists.list(1, 2, 3, 4, 5, 6, 7, 8));
+        assertThat(map.size()).isEqualTo(20);
+        assertThat(map.get(20)).isEqualTo(20);
     }
     /************ put test end **********/
 
     /************ get test start **********/
     @Test
-    public void should_return_null_when_call_get() {
+    public void should_return_null_when_key_not_existed() {
         // given
         map.put(1, 1);
         // when
@@ -147,7 +146,7 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_value_when_call_get() {
+    public void should_return_value_when_key_exist() {
         // given
         map.put(1, 1);
         // when
@@ -157,7 +156,7 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void test_get_when_hash_conflict() {
+    public void should_return_value_when_hash_conflict_and_key_exist() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         map.put(new HashConflict(1), 1);
@@ -199,7 +198,7 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void test_remove_when_hash_conflict() {
+    public void should_removed_when_hash_conflict_and_key_exist() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         map.put(new HashConflict(1), 1);
@@ -223,14 +222,14 @@ public class SimpleHashMapTest {
         map.put(1, 1);
         map.put(2, 2);
         map.put(3, 3);
-        map.put(3, 3);
+        map.put(3, 4);
         map.put(4, 4);
         map.remove(4);
         // when
         Iterable<Integer> values = map.values();
         // then
         assertThat(values.spliterator().estimateSize()).isEqualTo(3);
-        assertThat(Lists.newArrayList(values)).isEqualTo(Lists.list(1, 2, 3));
+        assertThat(Lists.newArrayList(values)).isEqualTo(Lists.list(1, 2, 4));
     }
     /************ values test end **********/
 
@@ -257,7 +256,7 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void est_contains_key_when_hash_conflict() {
+    public void test_contains_key_when_hash_conflict() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         map.put(new HashConflict(1), 1);
@@ -309,7 +308,7 @@ public class SimpleHashMapTest {
     class HashConflict {
         private int field;
 
-        public HashConflict(int field) {
+        HashConflict(int field) {
             this.field = field;
         }
 
