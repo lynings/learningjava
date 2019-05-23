@@ -1,8 +1,9 @@
 package com.learningjava.maps;
 
 import org.assertj.core.util.Lists;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class SimpleHashMapTest {
 
     private SimpleHashMap<Integer, Integer> map;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         // given
         this.map = new SimpleHashMap<>();
@@ -24,7 +25,10 @@ public class SimpleHashMapTest {
 
     /************ size test start **********/
     @Test
-    public void should_return_0_when_init() {
+    @DisplayName("given empty entries" +
+            "when call size() " +
+            "then return 0")
+    public void size1() {
         // when
         int size = map.size();
         // then
@@ -32,7 +36,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_correct_size_when_duplicated_key() {
+    @DisplayName("given multiple entries(contains duplicate key) " +
+            "when call size() " +
+            "then return correct size")
+    public void size2() {
         // given
         SimpleHashMap<Integer, Integer> map = new SimpleHashMap<>();
         map.put(1, 1);
@@ -51,7 +58,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_correct_size_when_hash_conflict() {
+    @DisplayName("given multiple entries(hash conflict) " +
+            "when call size() " +
+            "then return correct size")
+    public void size3() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         map.put(new HashConflict(1), 1);
@@ -71,7 +81,10 @@ public class SimpleHashMapTest {
 
     /************ put test start **********/
     @Test
-    public void should_put_success_when_put_one_entry() {
+    @DisplayName("given empty entries " +
+            "when put one entry " +
+            "then return size 1")
+    public void put1() {
         // when
         map.put(1, 1);
         // then
@@ -79,7 +92,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_put_success_when_duplicated_key() {
+    @DisplayName("given empty entries " +
+            "when put two entries(duplicate key) " +
+            "then return size 1")
+    public void put2() {
         // when
         map.put(1, 1);
         map.put(1, 2);
@@ -88,7 +104,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_put_success_when_put_multiples_entries() {
+    @DisplayName("given empty entries " +
+            "when put three entries " +
+            "then return size 3")
+    public void put3() {
         // when
         map.put(1, 1);
         map.put(2, 2);
@@ -98,7 +117,9 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_value_when_call_put() {
+    @DisplayName("should return value " +
+            "when call put")
+    public void put4() {
         // when
         Integer value = map.put(1, 1);
         // then
@@ -106,7 +127,11 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_put_success_when_hash_conflict() {
+    @DisplayName("" +
+            "given empty entries " +
+            "when put multiples entries(hash conflict) " +
+            "then")
+    public void put5() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         // when
@@ -122,7 +147,9 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_auto_grow_when_capacity_exceed_threshold() {
+    @DisplayName("should auto grow " +
+            "when capacity exceed threshold")
+    public void put6() {
         // given default threshold = 8
         // when
         for (int i = 1; i <= 20; i++) {
@@ -136,7 +163,10 @@ public class SimpleHashMapTest {
 
     /************ get test start **********/
     @Test
-    public void should_return_null_when_intpu_null_key() {
+    @DisplayName("given empty entries" +
+            "when get by null key" +
+            "then return null")
+    public void get1() {
         // when
         Integer value = map.get(null);
         // then
@@ -144,7 +174,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_null_when_empty_entries() {
+    @DisplayName("given empty entries" +
+            "when get value by not exist key" +
+            "then return null")
+    public void get2() {
         // when
         Integer value = map.get(2);
         // then
@@ -152,7 +185,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_null_when_key_not_existed() {
+    @DisplayName("given entry" +
+            "when get value by not exist key" +
+            "then return null")
+    public void get3() {
         // given
         map.put(1, 1);
         // when
@@ -162,7 +198,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_value_when_key_exist() {
+    @DisplayName("given entry" +
+            "when get value" +
+            "then return value")
+    public void get4() {
         // given
         map.put(1, 1);
         // when
@@ -172,7 +211,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_value_when_hash_conflict_and_key_exist() {
+    @DisplayName("given multiple entries(hash conflict)" +
+            "when get value by hash conflict key" +
+            "then return value")
+    public void get5() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         map.put(new HashConflict(1), 1);
@@ -189,7 +231,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_null_when_hash_conflict_and_key_not_exist() {
+    @DisplayName("given multiple entries(hash conflict)" +
+            "when get value by not exist hash conflict key" +
+            "then return null")
+    public void get6() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         map.put(new HashConflict(1), 1);
@@ -207,7 +252,10 @@ public class SimpleHashMapTest {
 
     /************ remove test start **********/
     @Test
-    public void should_return_null_when_init_map() {
+    @DisplayName("given empty entries" +
+            "when remove by null key" +
+            "then return null")
+    public void remove1() {
         // when
         Integer value = map.remove(null);
         // then
@@ -215,7 +263,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_null_when_input_null_key() {
+    @DisplayName("given entry" +
+            "when remove by null key" +
+            "then return null")
+    public void remove2() {
         // given
         map.put(1, 1);
         // when
@@ -225,29 +276,36 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_value_when_call_remove() {
+    @DisplayName("given entry" +
+            "when remove by key" +
+            "then return value")
+    public void remove3() {
         // given
         map.put(1, 1);
         // when
         int value = map.remove(1);
         // then
         assertThat(value).isEqualTo(1);
-        assertThat(map.values()).isEmpty();
     }
 
     @Test
-    public void should_return_null_when_remove_not_existed_key() {
+    @DisplayName("given entry" +
+            "when remove by not exist key" +
+            "then return null")
+    public void remove4() {
         // given
         map.put(1, 1);
         // when
         Integer value = map.remove(2);
         // then
         assertThat(value).isNull();
-        assertThat(Lists.newArrayList(map.values())).isEqualTo(Lists.list(1));
     }
 
     @Test
-    public void should_removed_when_hash_conflict_and_key_exist() {
+    @DisplayName("given multiple entries(hash conflict)" +
+            "when remove by hash conflict key" +
+            "then return value")
+    public void remove5() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         map.put(new HashConflict(1), 1);
@@ -266,7 +324,10 @@ public class SimpleHashMapTest {
 
     /************ values test start **********/
     @Test
-    public void should_return_empty_values() {
+    @DisplayName("given empty entries" +
+            "when call values" +
+            "then return empty values")
+    public void values1() {
         // when
         Iterable<Integer> values = map.values();
         // then
@@ -274,7 +335,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_correct_values() {
+    @DisplayName("given multiple entries" +
+            "when call values" +
+            "then return all values")
+    public void values2() {
         // given
         map.put(1, 1);
         map.put(2, 2);
@@ -293,7 +357,10 @@ public class SimpleHashMapTest {
 
     /************ containsKey test start **********/
     @Test
-    public void should_return_true_when_key_existed() {
+    @DisplayName("given entry" +
+            "when key exist" +
+            "then return true")
+    public void contains_key1() {
         // given
         map.put(1, 1);
         // when
@@ -303,7 +370,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_return_false_when_key_not_exist() {
+    @DisplayName("given entry" +
+            "when key not exist" +
+            "then return false")
+    public void containsKey2() {
         // given
         map.put(1, 1);
         // when
@@ -313,7 +383,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void test_contains_key_when_hash_conflict() {
+    @DisplayName("given multiple entries(hash conflict)" +
+            "when call containsKey" +
+            "then return correct result")
+    public void containsKey3() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         map.put(new HashConflict(1), 1);
@@ -331,7 +404,10 @@ public class SimpleHashMapTest {
 
     /************ forEach test start **********/
     @Test
-    public void test_foreach() {
+    @DisplayName("given multiple entries" +
+            "when call forEach" +
+            "then pass")
+    public void forEach1() {
         // given
         map.put(1, 1);
         map.put(2, 2);
@@ -345,7 +421,10 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void test_foreach_when_hash_conflict() {
+    @DisplayName("given multiple entries(hash conflict)" +
+            "when call forEach" +
+            "then pass")
+    public void forEach2() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         map.put(new HashConflict(1), 1);
