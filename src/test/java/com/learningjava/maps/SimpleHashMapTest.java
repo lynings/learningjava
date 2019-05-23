@@ -163,6 +163,22 @@ public class SimpleHashMapTest {
         assertThat(map.size()).isOne();
         assertThat(map.get(1)).isEqualTo(1);
     }
+
+    @Test
+    public void test_remove_when_hash_conflict() {
+        // given
+        SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
+        map.put(new HashConflict(1), 1);
+        map.put(new HashConflict(2), 2);
+        map.put(new HashConflict(3), 3);
+        map.put(new HashConflict(4), 4);
+        map.put(new HashConflict(5), 5);
+        // when
+        Integer value = map.remove(new HashConflict(3));
+        // then
+        assertThat(value).isEqualTo(3);
+        assertThat(map.size()).isEqualTo(4);
+    }
     /************ remove test end **********/
 
 

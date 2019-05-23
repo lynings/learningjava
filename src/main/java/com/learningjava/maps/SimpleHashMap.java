@@ -37,7 +37,7 @@ public class SimpleHashMap<K, V> {
     public V get(K key) {
         int hash = this.hash(key);
         int index = this.index(hash);
-        return this.getVal(index);
+        return this.getVal(index, key);
     }
 
     public V put(K key, V value) {
@@ -51,7 +51,7 @@ public class SimpleHashMap<K, V> {
     public V remove(K key) {
         int hash = this.hash(key);
         int index = this.index(hash);
-        return this.removeVal(index);
+        return this.removeVal(index, key);
     }
 
     public int size() {
@@ -62,11 +62,18 @@ public class SimpleHashMap<K, V> {
         return this.values;
     }
 
-    private V getVal(int index) {
+    private V getVal(int index, K key) {
         Bucket<K, V> bucket;
-        return this.tableEmpty() || (bucket = this.table[index]) == null
-                ? null
-                : bucket.value;
+        if (this.tableEmpty() || (bucket = this.table[index]) == null) {
+            return null;
+        }
+        while (bucket != null) {
+            if (bucket.key == key || bucket.key.equals(key)) {
+                return bucket.value;
+            }
+            bucket = bucket.next;
+        }
+        return null;
     }
 
     private void grow(int newCap) {
@@ -140,13 +147,25 @@ public class SimpleHashMap<K, V> {
         this.values.remove(bucket.value);
     }
 
-    private V removeVal(int index) {
-        Bucket<K, V> bucket = this.table[index];
-        if (bucket != null) {
-            this.size -= 1;
-            this.table[index] = null;
-            this.removeFromValues(bucket);
-            return bucket.value;
+    private V removeVal(int index, K key) {
+        Bucket<K, V> bucket, prev = null;
+        if (this.tableEmpty() || (bucket = this.table[index]) == null) {
+            return null;
+        }
+
+        while (bucket != null) {
+            if (bucket.key == key || bucket.key.equals(key)) {
+                if (prev == null) {
+                    this.table[index] = null;
+                } else {
+                    prev.next = bucket.next;
+                }
+                this.removeFromValues(bucket);
+                this.size -= 1;
+                return bucket.value;
+            }
+            prev = bucket;
+            bucket = bucket.next;
         }
         return null;
     }
