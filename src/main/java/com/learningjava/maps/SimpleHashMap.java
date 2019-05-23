@@ -122,16 +122,12 @@ public class SimpleHashMap<K, V> {
         if (Objects.isNull(bucket)) {
             this.table[index] = new Bucket<>(hash, key, value);
         } else {
-            while (bucket != null) {
-                if (bucket.matchKey(key)) {
-                    bucket.value = value;
-                    return value;
-                } else if (Objects.isNull(bucket.next)) {
-                    bucket.next = new Bucket<>(hash, key, value);
-                    bucket = null;
-                } else {
-                    bucket = bucket.next;
-                }
+            Bucket<K, V> indexBucket = bucket.lookup(key);
+            if (Objects.isNull(indexBucket)) {
+                bucket.last().next = new Bucket<>(hash, key, value);
+            } else {
+                indexBucket.value = value;
+                return value;
             }
         }
         this.size += 1;
@@ -204,6 +200,16 @@ public class SimpleHashMap<K, V> {
             this.hash = hash;
             this.key = key;
             this.value = value;
+        }
+
+        public Bucket last() {
+            Bucket<K, V> bucket = this;
+            while (true) {
+                if (Objects.isNull(bucket.next)) {
+                    return bucket;
+                }
+                bucket = bucket.next;
+            }
         }
 
         public Bucket<K, V> lookup(K key) {
