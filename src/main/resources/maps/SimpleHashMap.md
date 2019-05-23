@@ -36,7 +36,7 @@ public class SimpleHashMap<K, V> {
     - [x] 增加全局的 size 成员变量.
     - [x] put 接口调用成功，则 size += 1.
     - [x] remove 接口调用成功，则 size -= 1.
-    - [ ] 考虑链表
+    - [x] 考虑链表
     - [ ] 考虑红黑树
 - [ ] 增加 containsKey 接口
     - [x] 通过 key 计算 hash    
