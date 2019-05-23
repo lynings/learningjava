@@ -167,8 +167,7 @@ public class SimpleHashMapTest {
         int value = map.remove(1);
         // then
         assertThat(value).isEqualTo(1);
-        assertThat(map.size()).isZero();
-        assertThat(map.get(1)).isNull();
+        assertThat(map.values()).isEmpty();
     }
 
     @Test
@@ -179,8 +178,7 @@ public class SimpleHashMapTest {
         Integer value = map.remove(2);
         // then
         assertThat(value).isNull();
-        assertThat(map.size()).isOne();
-        assertThat(map.get(1)).isEqualTo(1);
+        assertThat(Lists.newArrayList(map.values())).isEqualTo(Lists.list(1));
     }
 
     @Test
@@ -196,7 +194,7 @@ public class SimpleHashMapTest {
         Integer value = map.remove(new HashConflict(3));
         // then
         assertThat(value).isEqualTo(3);
-        assertThat(map.size()).isEqualTo(4);
+        assertThat(Lists.newArrayList(map.values())).isEqualTo(Lists.list(1, 2, 4, 5));
     }
     /************ remove test end **********/
 
