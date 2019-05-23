@@ -75,10 +75,7 @@ public class SimpleHashMap<K, V> {
     }
 
     private V getVal(int index, K key) {
-        Bucket<K, V> bucket;
-        if (this.tableEmpty() || (bucket = this.table[index]) == null) {
-            return null;
-        }
+        Bucket<K, V> bucket = this.lookupBucket(index);
         while (bucket != null) {
             if (this.matchKey(key, bucket.key)) {
                 return bucket.value;
@@ -109,6 +106,12 @@ public class SimpleHashMap<K, V> {
 
     private void initTable(int newCap) {
         this.table = new Bucket[newCap];
+    }
+
+    private Bucket<K, V> lookupBucket(int index) {
+        return this.tableEmpty()
+                ? null
+                : this.table[index];
     }
 
     private boolean matchKey(K key1, K key2) {
@@ -155,11 +158,8 @@ public class SimpleHashMap<K, V> {
     }
 
     private V removeVal(int index, K key) {
-        Bucket<K, V> bucket, prev = null;
-        if (this.tableEmpty() || (bucket = this.table[index]) == null) {
-            return null;
-        }
-
+        Bucket<K, V> bucket = this.lookupBucket(index);
+        Bucket<K, V> prev = null;
         while (bucket != null) {
             if (this.matchKey(key, bucket.key)) {
                 if (prev == null) {
