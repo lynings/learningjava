@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 public class SimpleHashMap<K, V> {
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
     private static final float DEFAULT_LOAD_FACTOR = 0.75f;
-    private static final int TREEIFY_THRESHOLD = 8;
     private int size;
     private Bucket<K, V>[] table;
     private int threshold;
