@@ -90,8 +90,10 @@ public class SimpleHashMapTest {
         map.put(new HashConflict(1), 1);
         map.put(new HashConflict(2), 2);
         map.put(new HashConflict(3), 3);
+        map.put(new HashConflict(4), 4);
+        map.put(new HashConflict(5), 5);
         // then
-        assertThat(map.size()).isEqualTo(3);
+        assertThat(map.size()).isEqualTo(5);
     }
     /************ put test end **********/
 
@@ -212,7 +214,7 @@ public class SimpleHashMapTest {
 
         @Override
         public int hashCode() {
-            return 1;
+            return this.field < 3 ? 1 : this.field;
         }
 
         @Override
