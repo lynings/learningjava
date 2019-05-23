@@ -83,7 +83,7 @@ public class SimpleHashMapTest {
     }
 
     @Test
-    public void should_put_when_hash_conflict() {
+    public void test_put_when_hash_conflict() {
         // given
         SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
         // when
@@ -118,6 +118,23 @@ public class SimpleHashMapTest {
         Integer value = map.get(1);
         // then
         assertThat(value).isEqualTo(1);
+    }
+
+    @Test
+    public void test_get_when_hash_conflict() {
+        // given
+        SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
+        map.put(new HashConflict(1), 1);
+        map.put(new HashConflict(2), 2);
+        map.put(new HashConflict(3), 3);
+        map.put(new HashConflict(3), 4);
+        map.put(new HashConflict(3), 5);
+        map.put(new HashConflict(4), 4);
+        map.put(new HashConflict(5), 5);
+        // when
+        Integer value = map.get(new HashConflict(3));
+        // then
+        assertThat(value).isEqualTo(5);
     }
     /************ get test end **********/
 
@@ -216,7 +233,7 @@ public class SimpleHashMapTest {
 
         @Override
         public int hashCode() {
-            return this.field < 3 ? 1 : this.field;
+            return this.field <= 3 ? 1 : this.field;
         }
 
         @Override
