@@ -144,7 +144,7 @@ public class SimpleHashMapTest {
         Iterable<Integer> values = map.values();
         // then
         assertThat(values.spliterator().estimateSize()).isEqualTo(3);
-        assertThat(Lists.newArrayList(values)).isEqualTo(Lists.list(1,2,3));
+        assertThat(Lists.newArrayList(values)).isEqualTo(Lists.list(1, 2, 3));
     }
     /************ values test end **********/
 
@@ -170,4 +170,21 @@ public class SimpleHashMapTest {
         assertThat(result).isFalse();
     }
     /************ containsKey test end **********/
+
+
+    /************ forEach test start **********/
+    @Test
+    public void test_foreach() {
+        // given
+        map.put(1, 1);
+        map.put(2, 2);
+        map.put(3, 3);
+        map.put(4, 4);
+        // when
+        map.forEach((key) -> {
+            assertThat(key).isEqualTo(map.get(key));
+        });
+        // then
+    }
+    /************ forEach test end **********/
 }

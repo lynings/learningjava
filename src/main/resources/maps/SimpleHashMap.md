@@ -65,8 +65,8 @@ public class SimpleHashMap<K, V> {
     - [x] 每次 put 替换成功时，需要替换 list 中对应的 value
     - [x] 每次 remove 成功时从 list 中到删除
 -  [ ] 增加 forEach 接口
-    - [ ] 遍历 hash table
-    - [ ] 如果存在 bucket，则通过 action.apply(key, value) 
+    - [x] 遍历 hash table
+    - [x] 如果存在 bucket，则通过 action.apply(key) 
     - [ ] 考虑链表
     - [ ] 考虑红黑树
 - [ ] 增加 rb tree 保存 hash 冲突超过 8 次的数据节点.  

@@ -2,6 +2,7 @@ package com.learningjava.maps;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author lyning
@@ -23,6 +24,14 @@ public class SimpleHashMap<K, V> {
         int index = this.index(hash);
         Bucket<K, V> value;
         return (value = this.table[index]) != null && value.key == key;
+    }
+
+    public void forEach(Consumer<K> action) {
+        for (Bucket<K, V> bucket : this.table) {
+            if (bucket != null) {
+                action.accept(bucket.key);
+            }
+        }
     }
 
     public V get(K key) {
