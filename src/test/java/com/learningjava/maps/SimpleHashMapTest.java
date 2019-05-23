@@ -136,6 +136,22 @@ public class SimpleHashMapTest {
 
     /************ get test start **********/
     @Test
+    public void should_return_null_when_intpu_null_key() {
+        // when
+        Integer value = map.get(null);
+        // then
+        assertThat(value).isNull();
+    }
+
+    @Test
+    public void should_return_null_when_empty_entries() {
+        // when
+        Integer value = map.get(2);
+        // then
+        assertThat(value).isNull();
+    }
+
+    @Test
     public void should_return_null_when_key_not_existed() {
         // given
         map.put(1, 1);
@@ -171,10 +187,43 @@ public class SimpleHashMapTest {
         // then
         assertThat(value).isEqualTo(5);
     }
+
+    @Test
+    public void should_return_null_when_hash_conflict_and_key_not_exist() {
+        // given
+        SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
+        map.put(new HashConflict(1), 1);
+        map.put(new HashConflict(2), 2);
+        map.put(new HashConflict(3), 3);
+        map.put(new HashConflict(4), 4);
+        map.put(new HashConflict(5), 5);
+        // when
+        Integer value = map.get(new HashConflict(6));
+        // then
+        assertThat(value).isNull();
+    }
     /************ get test end **********/
 
 
     /************ remove test start **********/
+    @Test
+    public void should_return_null_when_init_map() {
+        // when
+        Integer value = map.remove(null);
+        // then
+        assertThat(value).isNull();
+    }
+
+    @Test
+    public void should_return_null_when_input_null_key() {
+        // given
+        map.put(1, 1);
+        // when
+        Integer value = map.remove(null);
+        // then
+        assertThat(value).isNull();
+    }
+
     @Test
     public void should_return_value_when_call_remove() {
         // given
@@ -216,6 +265,14 @@ public class SimpleHashMapTest {
 
 
     /************ values test start **********/
+    @Test
+    public void should_return_empty_values() {
+        // when
+        Iterable<Integer> values = map.values();
+        // then
+        assertThat(values).isEmpty();
+    }
+
     @Test
     public void should_return_correct_values() {
         // given

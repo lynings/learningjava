@@ -33,6 +33,9 @@ public class SimpleHashMap<K, V> {
     }
 
     public V get(K key) {
+        if (this.tableEmpty()) {
+            return null;
+        }
         int hash = this.hash(key);
         int index = this.index(hash);
         return this.getVal(index, key);
@@ -47,6 +50,9 @@ public class SimpleHashMap<K, V> {
     }
 
     public V remove(K key) {
+        if (this.tableEmpty()) {
+            return null;
+        }
         int hash = this.hash(key);
         int index = this.index(hash);
         return this.removeVal(index, key);
@@ -75,9 +81,7 @@ public class SimpleHashMap<K, V> {
     }
 
     private Bucket<K, V> findBucket(int index) {
-        return this.tableEmpty()
-                ? null
-                : this.table[index];
+        return this.table[index];
     }
 
     private V getVal(int index, K key) {
@@ -98,7 +102,7 @@ public class SimpleHashMap<K, V> {
 
     private int hash(K key) {
         int hashcode;
-        return Objects.isNull(key)
+        return key == null
                 ? 0
                 : (hashcode = key.hashCode()) ^ (hashcode >>> 16);
     }
@@ -186,7 +190,7 @@ public class SimpleHashMap<K, V> {
     }
 
     private boolean tableEmpty() {
-        return Objects.isNull(this.table) || this.table.length == 0;
+        return Objects.isNull(this.table);
     }
 
     static class Bucket<K, V> {
