@@ -271,6 +271,22 @@ public class SimpleHashMapTest {
         assertThat(results).isEqualTo(Lists.list(1, 2, 3, 4));
     }
 
+    @Test
+    public void test_foreach_when_hash_conflict() {
+        // given
+        SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
+        map.put(new HashConflict(1), 1);
+        map.put(new HashConflict(2), 2);
+        map.put(new HashConflict(3), 3);
+        map.put(new HashConflict(4), 4);
+        map.put(new HashConflict(5), 5);
+        // when
+        List<Integer> results = new ArrayList<>();
+        map.forEach((key) -> results.add(map.get(key)));
+        // then
+        assertThat(results).isEqualTo(Lists.list(1, 2, 3, 4, 5));
+    }
+
     /************ forEach test end **********/
 
     class HashConflict {

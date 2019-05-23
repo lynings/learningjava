@@ -29,8 +29,9 @@ public class SimpleHashMap<K, V> {
 
     public void forEach(Consumer<K> action) {
         for (Bucket<K, V> bucket : this.table) {
-            if (bucket != null) {
+            while (bucket != null) {
                 action.accept(bucket.key);
+                bucket = bucket.next;
             }
         }
     }

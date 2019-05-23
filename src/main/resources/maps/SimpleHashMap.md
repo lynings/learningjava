@@ -69,6 +69,6 @@ public class SimpleHashMap<K, V> {
 -  [ ] 增加 forEach 接口
     - [x] 遍历 hash table
     - [x] 如果存在 bucket，则通过 action.apply(key) 
-    - [ ] 考虑链表
+    - [x] 考虑链表
     - [ ] 考虑红黑树
 - [ ] 增加 rb tree 保存 hash 冲突超过 8 次的数据节点.  
