@@ -30,7 +30,7 @@ public class SimpleHashMap<K, V> {
     - [x] hash table 的下标为 hash & (capacity -1)
     - [x] 扩容时需要把旧的 hash table 的数据转移到新的 hash table
     - [x] 转移数据到新的 hash table 之前需要 rehash，rehash = entry.hash & (new_capacity -1)
-    - [ ] 如果 hash 冲突，使用链表存储
+    - [x] 如果 hash 冲突，使用链表存储
     - [ ] 如果同一个 hash 冲突超过 8 次，使用红黑树存储
 - [ ] 增加 size 接口
     - [x] 增加全局的 size 成员变量.
@@ -51,19 +51,21 @@ public class SimpleHashMap<K, V> {
     - [x] 通过 index 检索 bucket
     - [x] 如果 bucket 存在多个数据节点，则需要判断 key 的值和引用是否相等.
     - [x] 如果相等返回对应的 value，否则返回 null.
-    - [ ] 考虑链表
+    - [x] 考虑链表
     - [ ] 考虑红黑树
 - [ ] 增加 remove 接口
     - [x] 通过 key 计算 hash    
     - [x] 通过 hash 计算 index
     - [x] 通过 index 检索 bucket
     - [x] 如果相等则将对应的 bucket 置 null，并返回对应的 value，否则返回 null，
-    - [ ] 考虑链表
+    - [x] 考虑链表
     - [ ] 考虑红黑树
 - [ ] 增加 values 接口
     - [x] 每次 put 成功时保存 list 中到
     - [x] 每次 put 替换成功时，需要替换 list 中对应的 value
     - [x] 每次 remove 成功时从 list 中到删除
+    - [ ] 考虑链表
+    - [ ] 考虑红黑树
 -  [ ] 增加 forEach 接口
     - [x] 遍历 hash table
     - [x] 如果存在 bucket，则通过 action.apply(key) 

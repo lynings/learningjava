@@ -30,6 +30,25 @@ public class SimpleHashMapTest {
         // then
         assertThat(size).isZero();
     }
+
+    @Test
+    public void test_size_when_hash_conflict() {
+        // given
+        SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
+        map.put(new HashConflict(1), 1);
+        map.put(new HashConflict(2), 2);
+        map.put(new HashConflict(3), 3);
+        map.put(new HashConflict(3), 4);
+        map.put(new HashConflict(3), 5);
+        map.put(new HashConflict(4), 4);
+        map.put(new HashConflict(5), 5);
+        map.remove(new HashConflict(5));
+        map.remove(new HashConflict(3));
+        // when
+        int size = map.size();
+        // then
+        assertThat(size).isEqualTo(3);
+    }
     /************ size test end **********/
 
 
