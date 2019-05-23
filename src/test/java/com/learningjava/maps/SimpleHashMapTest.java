@@ -4,6 +4,9 @@ import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -181,10 +184,10 @@ public class SimpleHashMapTest {
         map.put(3, 3);
         map.put(4, 4);
         // when
-        map.forEach((key) -> {
-            assertThat(key).isEqualTo(map.get(key));
-        });
+        List<Integer> results = new ArrayList<>();
+        map.forEach((key) -> results.add(map.get(key)));
         // then
+        assertThat(results).isEqualTo(Lists.list(1,2,3,4));
     }
     /************ forEach test end **********/
 }
