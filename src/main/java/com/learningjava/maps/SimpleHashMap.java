@@ -22,8 +22,8 @@ public class SimpleHashMap<K, V> {
     public boolean containsKey(K key) {
         int hash = this.hash(key);
         int index = this.index(hash);
-        Bucket<K, V> value;
-        return (value = this.table[index]) != null && value.key == key;
+        Bucket<K, V> bucket;
+        return (bucket = this.table[index]) != null && (this.matchKey(key, bucket.key));
     }
 
     public void forEach(Consumer<K> action) {
@@ -68,7 +68,7 @@ public class SimpleHashMap<K, V> {
             return null;
         }
         while (bucket != null) {
-            if (bucket.key == key || bucket.key.equals(key)) {
+            if (this.matchKey(key, bucket.key)) {
                 return bucket.value;
             }
             bucket = bucket.next;
@@ -103,6 +103,10 @@ public class SimpleHashMap<K, V> {
         this.values.add(bucket.value);
     }
 
+    private boolean matchKey(K key1, K key2) {
+        return key1 == key2 || key1.equals(key2);
+    }
+
     private boolean nearByThreshold() {
         return this.size + 1 >= this.threshold;
     }
@@ -115,7 +119,7 @@ public class SimpleHashMap<K, V> {
             this.table[index] = new Bucket<>(hash, key, value);
         } else {
             while (bucket != null) {
-                if (bucket.key == key || bucket.key.equals(key)) {
+                if (this.matchKey(key, bucket.key)) {
                     bucket.value = value;
                     return value;
                 } else if (bucket.next == null) {
@@ -154,7 +158,7 @@ public class SimpleHashMap<K, V> {
         }
 
         while (bucket != null) {
-            if (bucket.key == key || bucket.key.equals(key)) {
+            if (this.matchKey(key, bucket.key)) {
                 if (prev == null) {
                     this.table[index] = null;
                 } else {
