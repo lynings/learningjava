@@ -18,13 +18,8 @@ public class SimpleHashMap<K, V> {
         int hash = this.hash(key);
         int index = this.index(hash);
         Bucket<K, V> bucket = this.table[index];
-        while (bucket != null) {
-            if (this.matchKey(key, bucket.key)) {
-                return true;
-            }
-            bucket = bucket.next;
-        }
-        return false;
+        return bucket != null
+                && bucket.lookup(key) != null;
     }
 
     public void forEach(Consumer<K> action) {
@@ -74,15 +69,18 @@ public class SimpleHashMap<K, V> {
         return values;
     }
 
+    private Bucket<K, V> findBucket(int index) {
+        return this.tableEmpty()
+                ? null
+                : this.table[index];
+    }
+
     private V getVal(int index, K key) {
-        Bucket<K, V> bucket = this.lookupBucket(index);
-        while (bucket != null) {
-            if (this.matchKey(key, bucket.key)) {
-                return bucket.value;
-            }
-            bucket = bucket.next;
+        Bucket<K, V> bucket = this.findBucket(index);
+        if (bucket == null || (bucket = bucket.lookup(key)) == null) {
+            return null;
         }
-        return null;
+        return bucket == null ? null : bucket.value;
     }
 
     private void grow(int newCap) {
@@ -108,16 +106,6 @@ public class SimpleHashMap<K, V> {
         this.table = new Bucket[newCap];
     }
 
-    private Bucket<K, V> lookupBucket(int index) {
-        return this.tableEmpty()
-                ? null
-                : this.table[index];
-    }
-
-    private boolean matchKey(K key1, K key2) {
-        return key1 == key2 || key1.equals(key2);
-    }
-
     private boolean nearByThreshold() {
         return this.size + 1 >= this.threshold;
     }
@@ -130,7 +118,7 @@ public class SimpleHashMap<K, V> {
             this.table[index] = new Bucket<>(hash, key, value);
         } else {
             while (bucket != null) {
-                if (this.matchKey(key, bucket.key)) {
+                if (bucket.matchKey(key)) {
                     bucket.value = value;
                     return value;
                 } else if (bucket.next == null) {
@@ -158,10 +146,10 @@ public class SimpleHashMap<K, V> {
     }
 
     private V removeVal(int index, K key) {
-        Bucket<K, V> bucket = this.lookupBucket(index);
+        Bucket<K, V> bucket = this.findBucket(index);
         Bucket<K, V> prev = null;
         while (bucket != null) {
-            if (this.matchKey(key, bucket.key)) {
+            if (bucket.matchKey(key)) {
                 if (prev == null) {
                     this.table[index] = null;
                 } else {
@@ -201,7 +189,7 @@ public class SimpleHashMap<K, V> {
         return this.table == null || this.table.length == 0;
     }
 
-    private static class Bucket<K, V> {
+    static class Bucket<K, V> {
         public Bucket<K, V> next;
         int hash;
         K key;
@@ -211,6 +199,21 @@ public class SimpleHashMap<K, V> {
             this.hash = hash;
             this.key = key;
             this.value = value;
+        }
+
+        public Bucket<K, V> lookup(K key) {
+            Bucket<K, V> bucket = this;
+            while (bucket != null) {
+                if (bucket.matchKey(key)) {
+                    return bucket;
+                }
+                bucket = bucket.next;
+            }
+            return null;
+        }
+
+        public boolean matchKey(K key) {
+            return this.key == key || this.key.equals(key);
         }
     }
 }
