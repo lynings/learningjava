@@ -43,7 +43,7 @@ public class SimpleHashMap<K, V> {
     - [x] 通过 hash 计算 index
     - [x] 通过 index 检索 key，检索到return true,否则 return false，
     - [x] 考虑 hash table 为 null.
-    - [ ] 考虑链表
+    - [x] 考虑链表
     - [ ] 考虑红黑树
 - [ ] 增加 get 接口
     - [x] 通过 key 计算 hash    

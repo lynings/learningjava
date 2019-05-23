@@ -238,6 +238,21 @@ public class SimpleHashMapTest {
         // then
         assertThat(result).isFalse();
     }
+
+    @Test
+    public void est_contains_key_when_hash_conflict() {
+        // given
+        SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
+        map.put(new HashConflict(1), 1);
+        map.put(new HashConflict(2), 2);
+        map.put(new HashConflict(3), 3);
+        map.put(new HashConflict(4), 4);
+        map.put(new HashConflict(5), 5);
+        // then
+        assertThat(map.containsKey(new HashConflict(3))).isTrue();
+        assertThat(map.containsKey(new HashConflict(5))).isTrue();
+        assertThat(map.containsKey(new HashConflict(6))).isFalse();
+    }
     /************ containsKey test end **********/
 
 

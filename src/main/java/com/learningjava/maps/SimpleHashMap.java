@@ -17,8 +17,14 @@ public class SimpleHashMap<K, V> {
     public boolean containsKey(K key) {
         int hash = this.hash(key);
         int index = this.index(hash);
-        Bucket<K, V> bucket;
-        return (bucket = this.table[index]) != null && (this.matchKey(key, bucket.key));
+        Bucket<K, V> bucket = this.table[index];
+        while (bucket != null) {
+            if (this.matchKey(key, bucket.key)) {
+                return true;
+            }
+            bucket = bucket.next;
+        }
+        return false;
     }
 
     public void forEach(Consumer<K> action) {
