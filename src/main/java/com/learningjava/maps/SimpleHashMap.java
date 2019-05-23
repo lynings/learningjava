@@ -103,14 +103,24 @@ public class SimpleHashMap<K, V> {
     private V putVal(K key, V value, int hash) {
         int index = this.index(hash);
         Bucket<K, V> bucket = this.table[index];
-        this.table[index] = new Bucket<>(hash, key, value);
 
-        if (bucket == null || bucket.key != key) {
-            this.size += 1;
+        if (bucket == null) {
+            this.table[index] = new Bucket<>(hash, key, value);
         } else {
-            this.values.remove(bucket.value);
+            while (bucket != null) {
+                if (bucket.key == key) {
+                    bucket.value = value;
+                    return value;
+                } else if (bucket.next == null) {
+                    bucket.next = new Bucket<>(hash, key, value);
+                    bucket = null;
+                } else {
+                    bucket = bucket.next;
+                }
+            }
         }
         this.insertToValues(this.table[index]);
+        this.size += 1;
         return value;
     }
 
@@ -167,6 +177,7 @@ public class SimpleHashMap<K, V> {
     }
 
     private static class Bucket<K, V> {
+        public Bucket<K, V> next;
         int hash;
         K key;
         V value;

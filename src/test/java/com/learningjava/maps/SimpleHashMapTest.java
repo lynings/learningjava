@@ -81,6 +81,18 @@ public class SimpleHashMapTest {
         // then
         assertThat(value).isEqualTo(1);
     }
+
+    @Test
+    public void should_put_when_hash_conflict() {
+        // given
+        SimpleHashMap<HashConflict, Integer> map = new SimpleHashMap<>();
+        // when
+        map.put(new HashConflict(1), 1);
+        map.put(new HashConflict(2), 2);
+        map.put(new HashConflict(3), 3);
+        // then
+        assertThat(map.size()).isEqualTo(3);
+    }
     /************ put test end **********/
 
     /************ get test start **********/
@@ -190,4 +202,22 @@ public class SimpleHashMapTest {
         assertThat(results).isEqualTo(Lists.list(1,2,3,4));
     }
     /************ forEach test end **********/
+
+    class HashConflict {
+        private int field;
+
+        public HashConflict(int field) {
+            this.field = field;
+        }
+
+        @Override
+        public int hashCode() {
+            return 1;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return ((HashConflict)obj).field == this.field;
+        }
+    }
 }
