@@ -220,18 +220,6 @@ public class SimpleHashMap<K, V> {
             this.last().next = bucket;
         }
 
-        public int size() {
-            int count = 0;
-            Bucket<K, V> bucket = this;
-            while (true) {
-                if (Objects.isNull(bucket.next)) {
-                    return count;
-                }
-                bucket = bucket.next;
-                count += 1;
-            }
-        }
-
         private Bucket last() {
             Bucket<K, V> bucket = this;
             while (true) {
