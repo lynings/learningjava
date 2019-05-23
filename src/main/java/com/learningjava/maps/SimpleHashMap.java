@@ -59,14 +59,18 @@ public class SimpleHashMap<K, V> {
         if (this.tableEmpty()) {
             return new ArrayList<>();
         }
-        List<V> values = new ArrayList<>();
+        List<V> collections = new ArrayList<>();
+        this.collectValues(collections);
+        return collections;
+    }
+
+    private void collectValues(List<V> collections) {
         for (Bucket<K, V> bucket : this.table) {
             while (bucket != null) {
-                values.add(bucket.value);
+                collections.add(bucket.value);
                 bucket = bucket.next;
             }
         }
-        return values;
     }
 
     private Bucket<K, V> findBucket(int index) {
@@ -80,7 +84,7 @@ public class SimpleHashMap<K, V> {
         if (bucket == null || (bucket = bucket.lookup(key)) == null) {
             return null;
         }
-        return bucket == null ? null : bucket.value;
+        return bucket.value;
     }
 
     private void grow(int newCap) {
@@ -190,7 +194,7 @@ public class SimpleHashMap<K, V> {
     }
 
     static class Bucket<K, V> {
-        public Bucket<K, V> next;
+        Bucket<K, V> next;
         int hash;
         K key;
         V value;
