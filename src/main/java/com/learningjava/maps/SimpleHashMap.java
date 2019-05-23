@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 public class SimpleHashMap<K, V> {
     private static final int DEFAULT_INITIAL_CAPACITY = 16;
     private static final float DEFAULT_LOAD_FACTOR = 0.75f;
+    private static final int TREEIFY_THRESHOLD = 8;
     private int size;
     private Bucket<K, V>[] table;
     private int threshold;
@@ -128,6 +129,10 @@ public class SimpleHashMap<K, V> {
                 return value;
             }
             bucket.putLast(new Bucket<>(hash, key, value));
+
+            if (bucket.size() >= TREEIFY_THRESHOLD) {
+                bucket.treeify();
+            }
         }
         this.size += 1;
         return value;
@@ -220,6 +225,22 @@ public class SimpleHashMap<K, V> {
             this.last().next = bucket;
         }
 
+        public int size() {
+            int count = 0;
+            Bucket<K, V> bucket = this;
+            while (true) {
+                if (Objects.isNull(bucket.next)) {
+                    return count;
+                }
+                bucket = bucket.next;
+                count += 1;
+            }
+        }
+
+        public void treeify() {
+            TreeBucket<K, V> treeBucket = null;
+        }
+
         private Bucket last() {
             Bucket<K, V> bucket = this;
             while (true) {
@@ -229,5 +250,13 @@ public class SimpleHashMap<K, V> {
                 bucket = bucket.next;
             }
         }
+    }
+
+    private static class TreeBucket<K, V> {
+        int hash;
+        K key;
+        V value;
+        boolean black;
+        TreeBucket<K, V> left, right;
     }
 }

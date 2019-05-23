@@ -71,4 +71,10 @@ public class SimpleHashMap<K, V> {
     - [x] 如果存在 bucket，则通过 action.apply(key) 
     - [x] 考虑链表
     - [ ] 考虑红黑树
-- [ ] 增加 rb tree 保存 hash 冲突超过 8 次的数据节点.  
+- [ ] 增加 rb tree 保存 hash 冲突超过 8 次的数据节点.
+    - [ ] 生成红黑树
+        - [ ] root 必须为黑色  
+        - [ ] 节点 > 左孩子节点 且 节点 < 有孩子节点
+        - [ ] 叶子节点为 null  
+        - [ ] 黑色节点的子节点必须会红色  
+        - [ ] 红色节点的子节点必须都是黑色  
