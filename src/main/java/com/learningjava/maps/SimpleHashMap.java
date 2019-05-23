@@ -2,6 +2,7 @@ package com.learningjava.maps;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -81,7 +82,7 @@ public class SimpleHashMap<K, V> {
 
     private V getVal(int index, K key) {
         Bucket<K, V> bucket = this.findBucket(index);
-        if (bucket == null || (bucket = bucket.lookup(key)) == null) {
+        if (Objects.isNull(bucket) || Objects.isNull(bucket = bucket.lookup(key))) {
             return null;
         }
         return bucket.value;
@@ -97,7 +98,7 @@ public class SimpleHashMap<K, V> {
 
     private int hash(K key) {
         int hashcode;
-        return key == null
+        return Objects.isNull(key)
                 ? 0
                 : (hashcode = key.hashCode()) ^ (hashcode >>> 16);
     }
@@ -118,14 +119,14 @@ public class SimpleHashMap<K, V> {
         int index = this.index(hash);
         Bucket<K, V> bucket = this.table[index];
 
-        if (bucket == null) {
+        if (Objects.isNull(bucket)) {
             this.table[index] = new Bucket<>(hash, key, value);
         } else {
             while (bucket != null) {
                 if (bucket.matchKey(key)) {
                     bucket.value = value;
                     return value;
-                } else if (bucket.next == null) {
+                } else if (Objects.isNull(bucket.next)) {
                     bucket.next = new Bucket<>(hash, key, value);
                     bucket = null;
                 } else {
@@ -154,7 +155,7 @@ public class SimpleHashMap<K, V> {
         Bucket<K, V> prev = null;
         while (bucket != null) {
             if (bucket.matchKey(key)) {
-                if (prev == null) {
+                if (Objects.isNull(prev)) {
                     this.table[index] = null;
                 } else {
                     prev.next = bucket.next;
@@ -186,11 +187,11 @@ public class SimpleHashMap<K, V> {
     }
 
     private int tableCapacity() {
-        return this.table == null ? 0 : this.table.length;
+        return Objects.isNull(this.table) ? 0 : this.table.length;
     }
 
     private boolean tableEmpty() {
-        return this.table == null || this.table.length == 0;
+        return Objects.isNull(this.table) || this.table.length == 0;
     }
 
     static class Bucket<K, V> {
