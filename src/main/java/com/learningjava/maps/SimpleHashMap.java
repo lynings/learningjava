@@ -13,11 +13,6 @@ public class SimpleHashMap<K, V> {
     private int size;
     private Bucket<K, V>[] table;
     private int threshold;
-    private List<V> values;
-
-    public SimpleHashMap() {
-        this.values = new ArrayList<>();
-    }
 
     public boolean containsKey(K key) {
         int hash = this.hash(key);
@@ -59,7 +54,17 @@ public class SimpleHashMap<K, V> {
     }
 
     public Iterable<V> values() {
-        return this.values;
+        if (this.tableEmpty()) {
+            return new ArrayList<>();
+        }
+        List<V> values = new ArrayList<>();
+        for (Bucket<K, V> bucket : this.table) {
+            while (bucket != null) {
+                values.add(bucket.value);
+                bucket = bucket.next;
+            }
+        }
+        return values;
     }
 
     private V getVal(int index, K key) {
@@ -99,10 +104,6 @@ public class SimpleHashMap<K, V> {
         this.table = new Bucket[newCap];
     }
 
-    private void insertToValues(Bucket<K, V> bucket) {
-        this.values.add(bucket.value);
-    }
-
     private boolean matchKey(K key1, K key2) {
         return key1 == key2 || key1.equals(key2);
     }
@@ -130,7 +131,6 @@ public class SimpleHashMap<K, V> {
                 }
             }
         }
-        this.insertToValues(this.table[index]);
         this.size += 1;
         return value;
     }
@@ -147,10 +147,6 @@ public class SimpleHashMap<K, V> {
         return newTable;
     }
 
-    private void removeFromValues(Bucket<K, V> bucket) {
-        this.values.remove(bucket.value);
-    }
-
     private V removeVal(int index, K key) {
         Bucket<K, V> bucket, prev = null;
         if (this.tableEmpty() || (bucket = this.table[index]) == null) {
@@ -164,7 +160,6 @@ public class SimpleHashMap<K, V> {
                 } else {
                     prev.next = bucket.next;
                 }
-                this.removeFromValues(bucket);
                 this.size -= 1;
                 return bucket.value;
             }

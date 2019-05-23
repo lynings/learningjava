@@ -114,7 +114,7 @@ public class SimpleHashMapTest {
         map.put(new HashConflict(4), 4);
         map.put(new HashConflict(5), 5);
         // then
-        assertThat(map.size()).isEqualTo(5);
+        assertThat(Lists.newArrayList(map.values())).isEqualTo(Lists.list(1, 2, 5, 4, 5));
     }
     /************ put test end **********/
 
@@ -255,8 +255,9 @@ public class SimpleHashMapTest {
         List<Integer> results = new ArrayList<>();
         map.forEach((key) -> results.add(map.get(key)));
         // then
-        assertThat(results).isEqualTo(Lists.list(1,2,3,4));
+        assertThat(results).isEqualTo(Lists.list(1, 2, 3, 4));
     }
+
     /************ forEach test end **********/
 
     class HashConflict {
@@ -273,7 +274,7 @@ public class SimpleHashMapTest {
 
         @Override
         public boolean equals(Object obj) {
-            return ((HashConflict)obj).field == this.field;
+            return ((HashConflict) obj).field == this.field;
         }
     }
 }
