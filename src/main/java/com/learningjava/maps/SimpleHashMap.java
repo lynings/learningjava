@@ -108,7 +108,7 @@ public class SimpleHashMap<K, V> {
             this.table[index] = new Bucket<>(hash, key, value);
         } else {
             while (bucket != null) {
-                if (bucket.key == key) {
+                if (bucket.key == key || bucket.key.equals(key)) {
                     bucket.value = value;
                     return value;
                 } else if (bucket.next == null) {

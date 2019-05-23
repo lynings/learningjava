@@ -90,6 +90,8 @@ public class SimpleHashMapTest {
         map.put(new HashConflict(1), 1);
         map.put(new HashConflict(2), 2);
         map.put(new HashConflict(3), 3);
+        map.put(new HashConflict(3), 4);
+        map.put(new HashConflict(3), 5);
         map.put(new HashConflict(4), 4);
         map.put(new HashConflict(5), 5);
         // then
